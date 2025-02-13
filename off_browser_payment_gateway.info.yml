@@ -1,0 +1,9 @@
+name: 'Off-Browser Payment Gateway'
+type: module
+description: 'This modules enables a payment gateway base for gateways that requires redirecting off from the browser to an external app.'
+package: Custom
+core_version_requirement: ^10
+dependencies:
+  - commerce:commerce
+  - commerce_payment:commerce_payment
+  - commerce_payment:commerce_checkout

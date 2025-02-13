@@ -1,0 +1,11 @@
+off_browser_payment_gateway.checkout.return:
+  path: '/checkout/{commerce_order}/{step}/return/{payment_reference}'
+  defaults:
+    _controller: '\Drupal\commerce_payment\Controller\PaymentCheckoutController::returnPage'
+  requirements:
+    _custom_access: '\Drupal\off_browser_payment_gateway\Controller\OffBrowserCheckoutController::checkAccess'
+    _module_dependencies: commerce_checkout
+  options:
+    parameters:
+      commerce_order:
+        type: entity:commerce_order
