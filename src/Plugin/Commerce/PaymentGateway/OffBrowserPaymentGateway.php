@@ -9,7 +9,7 @@ use Drupal\Core\Url;
 /**
  * Provides the Off-Browser Payment Gateway.
  */
-abstract class OffBrowserPaymentGateway extends OffsitePaymentGatewayBase {
+abstract class OffBrowserPaymentGateway extends OffsitePaymentGatewayBase implements OffBrowserPaymentGatewayInterface {
 
   /**
    * Generates a return URL token for the specified order.
@@ -30,9 +30,9 @@ abstract class OffBrowserPaymentGateway extends OffsitePaymentGatewayBase {
   }
 
   /**
-   * Returns the return URL with verification token.
+   * {@inheritdoc}
    */
-  public function getReturnUrl(OrderInterface $order) {
+  public function getReturnUrl(OrderInterface $order): string {
     $token = $this->getReturnUrlToken($order);
     $return_url = Url::fromRoute('off_browser_payment_gateway.checkout.return', [
       'commerce_order' => $order->id(),
@@ -44,18 +44,11 @@ abstract class OffBrowserPaymentGateway extends OffsitePaymentGatewayBase {
   }
 
   /**
-   * Verify the return token for security purposes.
-   *
-   * @param \Drupal\commerce_order\Entity\OrderInterface $order
-   *   The order entity.
-   * @param string $token
-   *   The token to verify.
-   *
-   * @return bool
-   *   TRUE if the token is valid, FALSE otherwise.
+   * {@inheritdoc}
    */
-  public function verifyReturnToken(OrderInterface $order, $token) {
+  public function verifyReturnToken(OrderInterface $order, $token): bool {
     $stored_token = $order->getData('off_browser_payment_reference', FALSE);
     return $stored_token && hash_equals($stored_token, $token);
   }
+
 }
